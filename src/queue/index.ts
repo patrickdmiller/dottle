@@ -1,13 +1,17 @@
-import { DotJob } from "../proto/dotjob";
-import {Dot} from "../proto/dot";
-class Queue{
- add(job: DotJob){
+import { Dot } from "../proto/dot";
+import { Dottle } from "../proto/dottle";
+class Queue {
 
- } 
+  //
+  getDottles() {
 
- pop() : Dot{
-  return Dot.create();
- }
+  }
+
+  pop(): Dot {
+    let dot = Dot.create();
+    dot.id = "abc123";
+    return dot;
+  }
 
 
 }

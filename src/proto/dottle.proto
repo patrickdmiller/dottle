@@ -8,4 +8,5 @@ message Dottle{
   string name = 2;
   google.protobuf.Timestamp created = 3;
   repeated Dot dots = 4;
+  int32 priority = 5;
 }

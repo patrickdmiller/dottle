@@ -10,7 +10,6 @@ message Dot{
     Container container = 4;
   }
   JobInfo job_info = 5;
-
 }
 
 message Container{
@@ -30,13 +29,13 @@ message Parameter{
 message JobInfo{
   Status status = 2;
   google.protobuf.Timestamp updated = 3;
-  }
   
   enum Status{
-  UNSET = 0;
-  QUEUED = 1;
-  PULLED = 2;
-  PROCESSING = 3;
-  FINISHED = 4;
-  ERROR = 5;
+    UNSET = 0;
+    QUEUED = 1;
+    PULLED = 2;
+    PROCESSING = 3;
+    FINISHED = 4;
+    ERROR = 5;
   }
+}
