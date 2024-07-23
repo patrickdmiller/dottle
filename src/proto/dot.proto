@@ -1,0 +1,42 @@
+syntax = "proto3";
+package dottle;
+import "google/protobuf/timestamp.proto";
+
+message Dot{
+  string id = 1;  
+  google.protobuf.Timestamp created = 2;
+  int32 priority = 3;
+  oneof type{
+    Container container = 4;
+  }
+  JobInfo job_info = 5;
+
+}
+
+message Container{
+  string uri = 1;
+  string command = 2;
+  repeated Parameter parameters=3;
+}
+
+message Parameter{
+  string key = 1;
+  oneof value {
+    string string_value = 2;
+    int64 int_value = 3;
+  } 
+}
+
+message JobInfo{
+  Status status = 2;
+  google.protobuf.Timestamp updated = 3;
+  }
+  
+  enum Status{
+  UNSET = 0;
+  QUEUED = 1;
+  PULLED = 2;
+  PROCESSING = 3;
+  FINISHED = 4;
+  ERROR = 5;
+  }

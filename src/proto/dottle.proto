@@ -1,0 +1,11 @@
+syntax = "proto3";
+package dottle;
+import "google/protobuf/timestamp.proto";
+import "dot.proto";
+
+message Dottle{
+  string id = 1;
+  string name = 2;
+  google.protobuf.Timestamp created = 3;
+  repeated Dot dots = 4;
+}
