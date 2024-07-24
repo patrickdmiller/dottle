@@ -5,75 +5,16 @@
 // source: dot.proto
 
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
+import Long from "long";
+import _m0 from "protobufjs/minimal";
 import { Timestamp } from "./google/protobuf/timestamp";
-import Long = require("long");
-
-export const protobufPackage = "dottle";
-
-export enum Status {
-  UNSET = 0,
-  QUEUED = 1,
-  PULLED = 2,
-  PROCESSING = 3,
-  FINISHED = 4,
-  ERROR = 5,
-  UNRECOGNIZED = -1,
-}
-
-export function statusFromJSON(object: any): Status {
-  switch (object) {
-    case 0:
-    case "UNSET":
-      return Status.UNSET;
-    case 1:
-    case "QUEUED":
-      return Status.QUEUED;
-    case 2:
-    case "PULLED":
-      return Status.PULLED;
-    case 3:
-    case "PROCESSING":
-      return Status.PROCESSING;
-    case 4:
-    case "FINISHED":
-      return Status.FINISHED;
-    case 5:
-    case "ERROR":
-      return Status.ERROR;
-    case -1:
-    case "UNRECOGNIZED":
-    default:
-      return Status.UNRECOGNIZED;
-  }
-}
-
-export function statusToJSON(object: Status): string {
-  switch (object) {
-    case Status.UNSET:
-      return "UNSET";
-    case Status.QUEUED:
-      return "QUEUED";
-    case Status.PULLED:
-      return "PULLED";
-    case Status.PROCESSING:
-      return "PROCESSING";
-    case Status.FINISHED:
-      return "FINISHED";
-    case Status.ERROR:
-      return "ERROR";
-    case Status.UNRECOGNIZED:
-    default:
-      return "UNRECOGNIZED";
-  }
-}
 
 export interface Dot {
   id: string;
-  created: Date | undefined;
+  created?: Date | undefined;
   priority: number;
   container?: Container | undefined;
-  jobInfo: JobInfo | undefined;
+  jobInfo?: JobInfo | undefined;
 }
 
 export interface Container {
@@ -89,8 +30,65 @@ export interface Parameter {
 }
 
 export interface JobInfo {
-  status: Status;
-  updated: Date | undefined;
+  status: JobInfo_Status;
+  updated?: Date | undefined;
+}
+
+export enum JobInfo_Status {
+  UNSET = 0,
+  QUEUED = 1,
+  PULLED = 2,
+  PROCESSING = 3,
+  FINISHED = 4,
+  ERROR = 5,
+  UNRECOGNIZED = -1,
+}
+
+export function jobInfo_StatusFromJSON(object: any): JobInfo_Status {
+  switch (object) {
+    case 0:
+    case "UNSET":
+      return JobInfo_Status.UNSET;
+    case 1:
+    case "QUEUED":
+      return JobInfo_Status.QUEUED;
+    case 2:
+    case "PULLED":
+      return JobInfo_Status.PULLED;
+    case 3:
+    case "PROCESSING":
+      return JobInfo_Status.PROCESSING;
+    case 4:
+    case "FINISHED":
+      return JobInfo_Status.FINISHED;
+    case 5:
+    case "ERROR":
+      return JobInfo_Status.ERROR;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return JobInfo_Status.UNRECOGNIZED;
+  }
+}
+
+export function jobInfo_StatusToJSON(object: JobInfo_Status): string {
+  switch (object) {
+    case JobInfo_Status.UNSET:
+      return "UNSET";
+    case JobInfo_Status.QUEUED:
+      return "QUEUED";
+    case JobInfo_Status.PULLED:
+      return "PULLED";
+    case JobInfo_Status.PROCESSING:
+      return "PROCESSING";
+    case JobInfo_Status.FINISHED:
+      return "FINISHED";
+    case JobInfo_Status.ERROR:
+      return "ERROR";
+    case JobInfo_Status.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
 }
 
 function createBaseDot(): Dot {
@@ -443,7 +441,7 @@ export const JobInfo = {
 
   fromJSON(object: any): JobInfo {
     return {
-      status: isSet(object.status) ? statusFromJSON(object.status) : 0,
+      status: isSet(object.status) ? jobInfo_StatusFromJSON(object.status) : 0,
       updated: isSet(object.updated) ? fromJsonTimestamp(object.updated) : undefined,
     };
   },
@@ -451,7 +449,7 @@ export const JobInfo = {
   toJSON(message: JobInfo): unknown {
     const obj: any = {};
     if (message.status !== 0) {
-      obj.status = statusToJSON(message.status);
+      obj.status = jobInfo_StatusToJSON(message.status);
     }
     if (message.updated !== undefined) {
       obj.updated = message.updated.toISOString();
@@ -472,14 +470,14 @@ export const JobInfo = {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
+type DeepPartial<T> = T extends Builtin ? T
   : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin ? P
+type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
 function toTimestamp(date: Date): Timestamp {

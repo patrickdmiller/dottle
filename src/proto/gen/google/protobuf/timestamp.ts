@@ -5,10 +5,8 @@
 // source: google/protobuf/timestamp.proto
 
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
-import Long = require("long");
-
-export const protobufPackage = "google.protobuf";
+import Long from "long";
+import _m0 from "protobufjs/minimal";
 
 /**
  * A Timestamp represents a point in time independent of any time zone or local
@@ -193,14 +191,14 @@ export const Timestamp = {
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
+type DeepPartial<T> = T extends Builtin ? T
   : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin ? P
+type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
 function longToNumber(long: Long): number {

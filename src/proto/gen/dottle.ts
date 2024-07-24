@@ -5,21 +5,20 @@
 // source: dottle.proto
 
 /* eslint-disable */
-import * as _m0 from "protobufjs/minimal";
+import _m0 from "protobufjs/minimal";
 import { Dot } from "./dot";
 import { Timestamp } from "./google/protobuf/timestamp";
-
-export const protobufPackage = "dottle";
 
 export interface Dottle {
   id: string;
   name: string;
-  created: Date | undefined;
+  created?: Date | undefined;
   dots: Dot[];
+  priority: number;
 }
 
 function createBaseDottle(): Dottle {
-  return { id: "", name: "", created: undefined, dots: [] };
+  return { id: "", name: "", created: undefined, dots: [], priority: 0 };
 }
 
 export const Dottle = {
@@ -35,6 +34,9 @@ export const Dottle = {
     }
     for (const v of message.dots) {
       Dot.encode(v!, writer.uint32(34).fork()).ldelim();
+    }
+    if (message.priority !== 0) {
+      writer.uint32(40).int32(message.priority);
     }
     return writer;
   },
@@ -74,6 +76,13 @@ export const Dottle = {
 
           message.dots.push(Dot.decode(reader, reader.uint32()));
           continue;
+        case 5:
+          if (tag !== 40) {
+            break;
+          }
+
+          message.priority = reader.int32();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -89,6 +98,7 @@ export const Dottle = {
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       created: isSet(object.created) ? fromJsonTimestamp(object.created) : undefined,
       dots: globalThis.Array.isArray(object?.dots) ? object.dots.map((e: any) => Dot.fromJSON(e)) : [],
+      priority: isSet(object.priority) ? globalThis.Number(object.priority) : 0,
     };
   },
 
@@ -106,6 +116,9 @@ export const Dottle = {
     if (message.dots?.length) {
       obj.dots = message.dots.map((e) => Dot.toJSON(e));
     }
+    if (message.priority !== 0) {
+      obj.priority = Math.round(message.priority);
+    }
     return obj;
   },
 
@@ -118,20 +131,21 @@ export const Dottle = {
     message.name = object.name ?? "";
     message.created = object.created ?? undefined;
     message.dots = object.dots?.map((e) => Dot.fromPartial(e)) || [];
+    message.priority = object.priority ?? 0;
     return message;
   },
 };
 
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-export type DeepPartial<T> = T extends Builtin ? T
+type DeepPartial<T> = T extends Builtin ? T
   : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
   : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
   : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
   : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin ? P
+type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
 
 function toTimestamp(date: Date): Timestamp {
