@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/patrickdmiller/dottle#readme",
   "dependencies": {
+    "@grpc/grpc-js": "^1.11.1",
     "protobufjs": "^7.3.2",
     "redis": "^4.6.15",
     "ts-proto": "^1.181.1",

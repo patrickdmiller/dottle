@@ -1,0 +1,16 @@
+syntax = "proto3";
+package dottle;
+
+service Coordinator{
+  rpc Test(TestRequest) returns (TestResponse){}
+  
+}
+
+message TestRequest{
+  string id = 1;
+  string message = 2;
+}
+
+message TestResponse{
+  string message = 1;
+}
