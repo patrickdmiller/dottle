@@ -20,7 +20,7 @@ class Coordinator implements CoordinatorServer {
     const {id, message} = call.request;
     
     const response: Partial<TestResponse> = {}
-    response.message = "test"
+    response.message = "response to :" + message
 
     callback(null, TestResponse.fromJSON(response));
 
