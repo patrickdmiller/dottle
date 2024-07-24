@@ -1,0 +1,13 @@
+version: "3.6"
+
+services:
+  redis:
+    image: redis/redis-stack-server
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
+    volumes:
+      - redis_data:/data
+volumes:
+  redis_data:

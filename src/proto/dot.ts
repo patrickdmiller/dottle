@@ -11,63 +11,6 @@ import Long = require("long");
 
 export const protobufPackage = "dottle";
 
-export enum Status {
-  UNSET = 0,
-  QUEUED = 1,
-  PULLED = 2,
-  PROCESSING = 3,
-  FINISHED = 4,
-  ERROR = 5,
-  UNRECOGNIZED = -1,
-}
-
-export function statusFromJSON(object: any): Status {
-  switch (object) {
-    case 0:
-    case "UNSET":
-      return Status.UNSET;
-    case 1:
-    case "QUEUED":
-      return Status.QUEUED;
-    case 2:
-    case "PULLED":
-      return Status.PULLED;
-    case 3:
-    case "PROCESSING":
-      return Status.PROCESSING;
-    case 4:
-    case "FINISHED":
-      return Status.FINISHED;
-    case 5:
-    case "ERROR":
-      return Status.ERROR;
-    case -1:
-    case "UNRECOGNIZED":
-    default:
-      return Status.UNRECOGNIZED;
-  }
-}
-
-export function statusToJSON(object: Status): string {
-  switch (object) {
-    case Status.UNSET:
-      return "UNSET";
-    case Status.QUEUED:
-      return "QUEUED";
-    case Status.PULLED:
-      return "PULLED";
-    case Status.PROCESSING:
-      return "PROCESSING";
-    case Status.FINISHED:
-      return "FINISHED";
-    case Status.ERROR:
-      return "ERROR";
-    case Status.UNRECOGNIZED:
-    default:
-      return "UNRECOGNIZED";
-  }
-}
-
 export interface Dot {
   id: string;
   created: Date | undefined;
@@ -89,8 +32,66 @@ export interface Parameter {
 }
 
 export interface JobInfo {
-  status: Status;
+  status: JobInfo_Status;
   updated: Date | undefined;
+  retryCount: number;
+}
+
+export enum JobInfo_Status {
+  UNSET = 0,
+  QUEUED = 1,
+  PULLED = 2,
+  PROCESSING = 3,
+  FINISHED = 4,
+  ERROR = 5,
+  UNRECOGNIZED = -1,
+}
+
+export function jobInfo_StatusFromJSON(object: any): JobInfo_Status {
+  switch (object) {
+    case 0:
+    case "UNSET":
+      return JobInfo_Status.UNSET;
+    case 1:
+    case "QUEUED":
+      return JobInfo_Status.QUEUED;
+    case 2:
+    case "PULLED":
+      return JobInfo_Status.PULLED;
+    case 3:
+    case "PROCESSING":
+      return JobInfo_Status.PROCESSING;
+    case 4:
+    case "FINISHED":
+      return JobInfo_Status.FINISHED;
+    case 5:
+    case "ERROR":
+      return JobInfo_Status.ERROR;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return JobInfo_Status.UNRECOGNIZED;
+  }
+}
+
+export function jobInfo_StatusToJSON(object: JobInfo_Status): string {
+  switch (object) {
+    case JobInfo_Status.UNSET:
+      return "UNSET";
+    case JobInfo_Status.QUEUED:
+      return "QUEUED";
+    case JobInfo_Status.PULLED:
+      return "PULLED";
+    case JobInfo_Status.PROCESSING:
+      return "PROCESSING";
+    case JobInfo_Status.FINISHED:
+      return "FINISHED";
+    case JobInfo_Status.ERROR:
+      return "ERROR";
+    case JobInfo_Status.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
 }
 
 function createBaseDot(): Dot {
@@ -397,16 +398,19 @@ export const Parameter = {
 };
 
 function createBaseJobInfo(): JobInfo {
-  return { status: 0, updated: undefined };
+  return { status: 0, updated: undefined, retryCount: 0 };
 }
 
 export const JobInfo = {
   encode(message: JobInfo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.status !== 0) {
-      writer.uint32(16).int32(message.status);
+      writer.uint32(8).int32(message.status);
     }
     if (message.updated !== undefined) {
-      Timestamp.encode(toTimestamp(message.updated), writer.uint32(26).fork()).ldelim();
+      Timestamp.encode(toTimestamp(message.updated), writer.uint32(18).fork()).ldelim();
+    }
+    if (message.retryCount !== 0) {
+      writer.uint32(24).int32(message.retryCount);
     }
     return writer;
   },
@@ -418,19 +422,26 @@ export const JobInfo = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        case 2:
-          if (tag !== 16) {
+        case 1:
+          if (tag !== 8) {
             break;
           }
 
           message.status = reader.int32() as any;
           continue;
-        case 3:
-          if (tag !== 26) {
+        case 2:
+          if (tag !== 18) {
             break;
           }
 
           message.updated = fromTimestamp(Timestamp.decode(reader, reader.uint32()));
+          continue;
+        case 3:
+          if (tag !== 24) {
+            break;
+          }
+
+          message.retryCount = reader.int32();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -443,18 +454,22 @@ export const JobInfo = {
 
   fromJSON(object: any): JobInfo {
     return {
-      status: isSet(object.status) ? statusFromJSON(object.status) : 0,
+      status: isSet(object.status) ? jobInfo_StatusFromJSON(object.status) : 0,
       updated: isSet(object.updated) ? fromJsonTimestamp(object.updated) : undefined,
+      retryCount: isSet(object.retryCount) ? globalThis.Number(object.retryCount) : 0,
     };
   },
 
   toJSON(message: JobInfo): unknown {
     const obj: any = {};
     if (message.status !== 0) {
-      obj.status = statusToJSON(message.status);
+      obj.status = jobInfo_StatusToJSON(message.status);
     }
     if (message.updated !== undefined) {
       obj.updated = message.updated.toISOString();
+    }
+    if (message.retryCount !== 0) {
+      obj.retryCount = Math.round(message.retryCount);
     }
     return obj;
   },
@@ -466,6 +481,7 @@ export const JobInfo = {
     const message = createBaseJobInfo();
     message.status = object.status ?? 0;
     message.updated = object.updated ?? undefined;
+    message.retryCount = object.retryCount ?? 0;
     return message;
   },
 };

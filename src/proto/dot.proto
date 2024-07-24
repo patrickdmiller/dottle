@@ -27,8 +27,9 @@ message Parameter{
 }
 
 message JobInfo{
-  Status status = 2;
-  google.protobuf.Timestamp updated = 3;
+  Status status = 1;
+  google.protobuf.Timestamp updated = 2;
+  int32 retry_count = 3;
   
   enum Status{
     UNSET = 0;
