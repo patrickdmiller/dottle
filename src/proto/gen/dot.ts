@@ -32,6 +32,7 @@ export interface Parameter {
 export interface JobInfo {
   status: JobInfo_Status;
   updated?: Date | undefined;
+  retryCount: number;
 }
 
 export enum JobInfo_Status {

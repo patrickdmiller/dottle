@@ -25,20 +25,16 @@ metadata.add('foo', 'bar1');
 metadata.add('foo', 'bar2');
 
 async function test(): Promise<void> {
-  /**
-   * rpc sayHello with callback
-   * https://github.com/grpc/grpc-node/issues/54
-   */
+  // callback
   client.test(param, (err: ServiceError | null, res: TestResponse) => {
    if(err)
-    console.error(err)
+    console.error("cb", err)
+   console.log("cb", res);
   });
 
-  /**
-   * rpc sayHello with Promise
-   */
+  // promise
   const answer = await clientService.test(param, metadata);
-  console.log(answer)
+  console.log("promise", answer)
 
 }
 
