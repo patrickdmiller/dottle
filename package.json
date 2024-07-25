@@ -20,13 +20,13 @@
   "homepage": "https://github.com/patrickdmiller/dottle#readme",
   "dependencies": {
     "@grpc/grpc-js": "^1.11.1",
-    "protobufjs": "^7.3.2",
     "redis": "^4.6.15",
     "ts-proto": "^1.181.1",
     "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.11",
+    "@types/redis": "^4.0.10",
     "@types/ws": "^8.5.11",
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",

@@ -3,7 +3,6 @@ package dottle;
 
 service Coordinator{
   rpc Test(TestRequest) returns (TestResponse){}
-  
 }
 
 message TestRequest{

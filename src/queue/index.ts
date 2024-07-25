@@ -8,7 +8,7 @@ export class Queue {
   }
   //get a list of all dottles from redis
   getDottles() {
-
+    this.store.client.get();
   }
 
   // For a given Dottle, pop the highest priority dot

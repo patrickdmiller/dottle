@@ -28,7 +28,7 @@ async function test(): Promise<void> {
   // callback
   client.test(param, (err: ServiceError | null, res: TestResponse) => {
    if(err)
-    console.error("cb", err)
+    console.error("cb error", err)
    console.log("cb", res);
   });
 
