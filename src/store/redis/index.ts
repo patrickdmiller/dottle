@@ -41,7 +41,7 @@ export class Redis implements Store{
     if(this.client){
       let raw = await this.client.get(makeId(KEYS.DOTTLE, id));
       if(raw){
-        return Dottle.decode(new TextEncoder().encode(raw));
+        return Dottle.fromBinary(new TextEncoder().encode(raw));
       }
     }
     return Promise.reject("redis client is not connected");
@@ -49,7 +49,7 @@ export class Redis implements Store{
 
   async setDottle(dottle: Dottle) : Promise<any>{
     if(this.client){
-      await this.client.set(makeId(KEYS.DOTTLE,dottle.id), new TextDecoder().decode(Dottle.encode(dottle).finish()))
+      await this.client.set(makeId(KEYS.DOTTLE,dottle.id), new TextDecoder().decode(Dottle.toBinary(dottle)))
       return Promise.resolve();
     }
     return Promise.reject("redis client is not connected");

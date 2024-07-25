@@ -4,9 +4,10 @@
   "description": "distributed processing",
   "main": "index.js",
   "scripts": {
-    "run": "npx ts-node src/index.ts",
+    "server": "npx ts-node src/index.ts",
+    "client": "npx ts-node src/client/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "buildproto": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=./src/proto --proto_path=./src/proto  ./src/proto/*.proto"
+    "buildproto": "rm -rf src/proto/gen/* && npx protoc --ts_opt server_grpc1,client_grpc1 --ts_out src/proto/gen --proto_path src/proto src/proto/*.proto"
   },
   "repository": {
     "type": "git",
@@ -20,14 +21,13 @@
   "homepage": "https://github.com/patrickdmiller/dottle#readme",
   "dependencies": {
     "@grpc/grpc-js": "^1.11.1",
-    "redis": "^4.6.15",
-    "ts-proto": "^1.181.1",
-    "ws": "^8.18.0"
+    "@protobuf-ts/grpc-backend": "^2.9.4",
+    "@protobuf-ts/plugin": "^2.9.4",
+    "redis": "^4.6.15"
   },
   "devDependencies": {
     "@types/node": "^20.14.11",
     "@types/redis": "^4.0.10",
-    "@types/ws": "^8.5.11",
     "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
