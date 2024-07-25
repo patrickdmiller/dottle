@@ -11,6 +11,7 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
+import { Dottle } from "./dottle";
 /**
  * @generated from protobuf message dottle.TestRequest
  */
@@ -32,6 +33,20 @@ export interface TestResponse {
      * @generated from protobuf field: string message = 1;
      */
     message: string;
+}
+/**
+ * @generated from protobuf message dottle.CreateDottleRequest
+ */
+export interface CreateDottleRequest {
+    /**
+     * @generated from protobuf field: dottle.Dottle dottle = 1;
+     */
+    dottle?: Dottle;
+}
+/**
+ * @generated from protobuf message dottle.CreateDottleResponse
+ */
+export interface CreateDottleResponse {
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class TestRequest$Type extends MessageType<TestRequest> {
@@ -135,9 +150,81 @@ class TestResponse$Type extends MessageType<TestResponse> {
  * @generated MessageType for protobuf message dottle.TestResponse
  */
 export const TestResponse = new TestResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class CreateDottleRequest$Type extends MessageType<CreateDottleRequest> {
+    constructor() {
+        super("dottle.CreateDottleRequest", [
+            { no: 1, name: "dottle", kind: "message", T: () => Dottle }
+        ]);
+    }
+    create(value?: PartialMessage<CreateDottleRequest>): CreateDottleRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<CreateDottleRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CreateDottleRequest): CreateDottleRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* dottle.Dottle dottle */ 1:
+                    message.dottle = Dottle.internalBinaryRead(reader, reader.uint32(), options, message.dottle);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: CreateDottleRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* dottle.Dottle dottle = 1; */
+        if (message.dottle)
+            Dottle.internalBinaryWrite(message.dottle, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message dottle.CreateDottleRequest
+ */
+export const CreateDottleRequest = new CreateDottleRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class CreateDottleResponse$Type extends MessageType<CreateDottleResponse> {
+    constructor() {
+        super("dottle.CreateDottleResponse", []);
+    }
+    create(value?: PartialMessage<CreateDottleResponse>): CreateDottleResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<CreateDottleResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: CreateDottleResponse): CreateDottleResponse {
+        return target ?? this.create();
+    }
+    internalBinaryWrite(message: CreateDottleResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message dottle.CreateDottleResponse
+ */
+export const CreateDottleResponse = new CreateDottleResponse$Type();
 /**
  * @generated ServiceType for protobuf service dottle.CoordinatorService
  */
 export const CoordinatorService = new ServiceType("dottle.CoordinatorService", [
-    { name: "Test", options: {}, I: TestRequest, O: TestResponse }
+    { name: "Test", options: {}, I: TestRequest, O: TestResponse },
+    { name: "CreateDottle", options: {}, I: CreateDottleRequest, O: CreateDottleResponse }
 ]);

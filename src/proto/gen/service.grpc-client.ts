@@ -4,6 +4,8 @@
 import { CoordinatorService } from "./service";
 import type { BinaryWriteOptions } from "@protobuf-ts/runtime";
 import type { BinaryReadOptions } from "@protobuf-ts/runtime";
+import type { CreateDottleResponse } from "./service";
+import type { CreateDottleRequest } from "./service";
 import type { TestResponse } from "./service";
 import type { TestRequest } from "./service";
 import * as grpc from "@grpc/grpc-js";
@@ -12,12 +14,21 @@ import * as grpc from "@grpc/grpc-js";
  */
 export interface ICoordinatorServiceClient {
     /**
+     * test pin pong
+     *
      * @generated from protobuf rpc: Test(dottle.TestRequest) returns (dottle.TestResponse);
      */
     test(input: TestRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: (err: grpc.ServiceError | null, value?: TestResponse) => void): grpc.ClientUnaryCall;
     test(input: TestRequest, metadata: grpc.Metadata, callback: (err: grpc.ServiceError | null, value?: TestResponse) => void): grpc.ClientUnaryCall;
     test(input: TestRequest, options: grpc.CallOptions, callback: (err: grpc.ServiceError | null, value?: TestResponse) => void): grpc.ClientUnaryCall;
     test(input: TestRequest, callback: (err: grpc.ServiceError | null, value?: TestResponse) => void): grpc.ClientUnaryCall;
+    /**
+     * @generated from protobuf rpc: CreateDottle(dottle.CreateDottleRequest) returns (dottle.CreateDottleResponse);
+     */
+    createDottle(input: CreateDottleRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: (err: grpc.ServiceError | null, value?: CreateDottleResponse) => void): grpc.ClientUnaryCall;
+    createDottle(input: CreateDottleRequest, metadata: grpc.Metadata, callback: (err: grpc.ServiceError | null, value?: CreateDottleResponse) => void): grpc.ClientUnaryCall;
+    createDottle(input: CreateDottleRequest, options: grpc.CallOptions, callback: (err: grpc.ServiceError | null, value?: CreateDottleResponse) => void): grpc.ClientUnaryCall;
+    createDottle(input: CreateDottleRequest, callback: (err: grpc.ServiceError | null, value?: CreateDottleResponse) => void): grpc.ClientUnaryCall;
 }
 /**
  * @generated from protobuf service dottle.CoordinatorService
@@ -29,10 +40,19 @@ export class CoordinatorServiceClient extends grpc.Client implements ICoordinato
         this._binaryOptions = binaryOptions;
     }
     /**
+     * test pin pong
+     *
      * @generated from protobuf rpc: Test(dottle.TestRequest) returns (dottle.TestResponse);
      */
     test(input: TestRequest, metadata: grpc.Metadata | grpc.CallOptions | ((err: grpc.ServiceError | null, value?: TestResponse) => void), options?: grpc.CallOptions | ((err: grpc.ServiceError | null, value?: TestResponse) => void), callback?: ((err: grpc.ServiceError | null, value?: TestResponse) => void)): grpc.ClientUnaryCall {
         const method = CoordinatorService.methods[0];
         return this.makeUnaryRequest<TestRequest, TestResponse>(`/${CoordinatorService.typeName}/${method.name}`, (value: TestRequest): Buffer => Buffer.from(method.I.toBinary(value, this._binaryOptions)), (value: Buffer): TestResponse => method.O.fromBinary(value, this._binaryOptions), input, (metadata as any), (options as any), (callback as any));
+    }
+    /**
+     * @generated from protobuf rpc: CreateDottle(dottle.CreateDottleRequest) returns (dottle.CreateDottleResponse);
+     */
+    createDottle(input: CreateDottleRequest, metadata: grpc.Metadata | grpc.CallOptions | ((err: grpc.ServiceError | null, value?: CreateDottleResponse) => void), options?: grpc.CallOptions | ((err: grpc.ServiceError | null, value?: CreateDottleResponse) => void), callback?: ((err: grpc.ServiceError | null, value?: CreateDottleResponse) => void)): grpc.ClientUnaryCall {
+        const method = CoordinatorService.methods[1];
+        return this.makeUnaryRequest<CreateDottleRequest, CreateDottleResponse>(`/${CoordinatorService.typeName}/${method.name}`, (value: CreateDottleRequest): Buffer => Buffer.from(method.I.toBinary(value, this._binaryOptions)), (value: Buffer): CreateDottleResponse => method.O.fromBinary(value, this._binaryOptions), input, (metadata as any), (options as any), (callback as any));
     }
 }

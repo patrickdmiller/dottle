@@ -1,12 +1,21 @@
 import * as grpc from '@grpc/grpc-js';
 import { CoordinatorService } from './Coordinator'
 import { coordinatorServiceDefinition, ICoordinatorService } from "../proto/gen/service.grpc-server";
+import {Store} from '../store'
+
 
 export class Server {
+  store : Store; 
+
+  constructor(store : Store){
+    this.store = store;
+  }
+
   start() {
-    function getServer(): grpc.Server {
+    const getServer = ():grpc.Server=>{
+    // function getServer(): grpc.Server {
       const server = new grpc.Server();
-      server.addService(coordinatorServiceDefinition, new CoordinatorService());
+      server.addService(coordinatorServiceDefinition, new CoordinatorService(this.store));
       return server;
     }
       const server = getServer();

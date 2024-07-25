@@ -1,8 +1,12 @@
 syntax = "proto3";
 package dottle;
+import "dot.proto";
+import "dottle.proto";
 
 service CoordinatorService{
+  // test pin pong
   rpc Test(TestRequest) returns (TestResponse){}
+  rpc CreateDottle(CreateDottleRequest) returns (CreateDottleResponse){}
 }
 
 message TestRequest{
@@ -13,3 +17,12 @@ message TestRequest{
 message TestResponse{
   string message = 1;
 }
+
+message CreateDottleRequest{
+  Dottle dottle = 1;
+}
+
+message CreateDottleResponse{
+
+}
+

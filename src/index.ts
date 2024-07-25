@@ -1,2 +1,7 @@
 import {Server} from './server/Server'
-(new Server).start();
+import {Redis} from './store/redis'
+
+const redis = new Redis();
+// redis.connect();
+
+(new Server(redis)).start();
