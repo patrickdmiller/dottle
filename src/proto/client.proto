@@ -1,0 +1,7 @@
+syntax = "proto3";
+package dottle;
+
+//todo 
+message Client{
+  string id = 1;
+}
