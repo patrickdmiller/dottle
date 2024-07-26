@@ -2,11 +2,13 @@ syntax = "proto3";
 package dottle;
 import "dot.proto";
 import "dottle.proto";
-
+import "client.proto";
 service CoordinatorService{
   // test pin pong
   rpc Test(TestRequest) returns (TestResponse){}
   rpc CreateDottle(CreateDottleRequest) returns (CreateDottleResponse){}
+  // if available, return, else, wait until available
+  rpc GetDotForProcess(GetDotForProcessRequest) returns (stream GetDotForProcessResponse){}
 }
 
 message TestRequest{
@@ -24,5 +26,13 @@ message CreateDottleRequest{
 
 message CreateDottleResponse{
 
+}
+
+message GetDotForProcessRequest{
+  Client client = 1;
+}
+
+message GetDotForProcessResponse{
+  Dot dot = 1;
 }
 

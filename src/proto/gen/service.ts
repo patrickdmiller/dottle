@@ -11,6 +11,8 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
+import { Dot } from "./dot";
+import { Client } from "./client";
 import { Dottle } from "./dottle";
 /**
  * @generated from protobuf message dottle.TestRequest
@@ -47,6 +49,24 @@ export interface CreateDottleRequest {
  * @generated from protobuf message dottle.CreateDottleResponse
  */
 export interface CreateDottleResponse {
+}
+/**
+ * @generated from protobuf message dottle.GetDotForProcessRequest
+ */
+export interface GetDotForProcessRequest {
+    /**
+     * @generated from protobuf field: dottle.Client client = 1;
+     */
+    client?: Client;
+}
+/**
+ * @generated from protobuf message dottle.GetDotForProcessResponse
+ */
+export interface GetDotForProcessResponse {
+    /**
+     * @generated from protobuf field: dottle.Dot dot = 1;
+     */
+    dot?: Dot;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class TestRequest$Type extends MessageType<TestRequest> {
@@ -221,10 +241,103 @@ class CreateDottleResponse$Type extends MessageType<CreateDottleResponse> {
  * @generated MessageType for protobuf message dottle.CreateDottleResponse
  */
 export const CreateDottleResponse = new CreateDottleResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetDotForProcessRequest$Type extends MessageType<GetDotForProcessRequest> {
+    constructor() {
+        super("dottle.GetDotForProcessRequest", [
+            { no: 1, name: "client", kind: "message", T: () => Client }
+        ]);
+    }
+    create(value?: PartialMessage<GetDotForProcessRequest>): GetDotForProcessRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<GetDotForProcessRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetDotForProcessRequest): GetDotForProcessRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* dottle.Client client */ 1:
+                    message.client = Client.internalBinaryRead(reader, reader.uint32(), options, message.client);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetDotForProcessRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* dottle.Client client = 1; */
+        if (message.client)
+            Client.internalBinaryWrite(message.client, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message dottle.GetDotForProcessRequest
+ */
+export const GetDotForProcessRequest = new GetDotForProcessRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class GetDotForProcessResponse$Type extends MessageType<GetDotForProcessResponse> {
+    constructor() {
+        super("dottle.GetDotForProcessResponse", [
+            { no: 1, name: "dot", kind: "message", T: () => Dot }
+        ]);
+    }
+    create(value?: PartialMessage<GetDotForProcessResponse>): GetDotForProcessResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<GetDotForProcessResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetDotForProcessResponse): GetDotForProcessResponse {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* dottle.Dot dot */ 1:
+                    message.dot = Dot.internalBinaryRead(reader, reader.uint32(), options, message.dot);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: GetDotForProcessResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* dottle.Dot dot = 1; */
+        if (message.dot)
+            Dot.internalBinaryWrite(message.dot, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message dottle.GetDotForProcessResponse
+ */
+export const GetDotForProcessResponse = new GetDotForProcessResponse$Type();
 /**
  * @generated ServiceType for protobuf service dottle.CoordinatorService
  */
 export const CoordinatorService = new ServiceType("dottle.CoordinatorService", [
     { name: "Test", options: {}, I: TestRequest, O: TestResponse },
-    { name: "CreateDottle", options: {}, I: CreateDottleRequest, O: CreateDottleResponse }
+    { name: "CreateDottle", options: {}, I: CreateDottleRequest, O: CreateDottleResponse },
+    { name: "GetDotForProcess", serverStreaming: true, options: {}, I: GetDotForProcessRequest, O: GetDotForProcessResponse }
 ]);
