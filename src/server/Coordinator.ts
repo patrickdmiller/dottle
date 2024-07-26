@@ -33,7 +33,7 @@ export class CoordinatorService implements ICoordinatorService {
       this.handleError(new Error("no dottle defined"), callback)
     } else {
       try{
-        await store.setDottle(call.request.dottle);
+        await store.addDottle(call.request.dottle);
         let result = await store.getDottle(call.request.dottle.id)
         if(result){
           console.log("pulled : ", result)

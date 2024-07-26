@@ -1,4 +1,4 @@
-import { Dot } from "../proto/gen/dot";
+import { Dot, DotQueued } from "../proto/gen/dot";
 import { Dottle } from "../proto/gen/dottle";
 
 export 
@@ -21,24 +21,29 @@ export function makeDotId (dottleId : Dottle['id'], dotId : Dot['id']) : string 
   return KEYS.DOT + ":" + dottleId + ":" + dotId;
 }
 
-export function toStore(obj: Dot | Dottle) : string{
+export function toStore(obj: Dot | Dottle | DotQueued) : string{
   console.log("TOSTORE")
   if(Dot.is(obj)){
     return Buffer.from(Dot.toBinary(obj)).toString('base64');
   }
   if(Dottle.is(obj)){
-    return Buffer.from(Dottle.toBinary(obj as Dottle)).toString('base64');
+    return Buffer.from(Dottle.toBinary(obj)).toString('base64');
+  }
+  if(DotQueued.is(obj)){
+    return Buffer.from(DotQueued.toBinary(obj)).toString('base64');
   }
 
   throw new Error("toStore: no obj passed")
 }
 
-export function fromStore(raw: string, type: typeof Dot | typeof Dottle) : Dot | Dottle{
+export function fromStore(raw: string, type: typeof Dot | typeof Dottle | typeof DotQueued) : Dot | Dottle | DotQueued{
   switch(type){
     case Dot:
       return Dot.fromBinary(Buffer.from(raw, 'base64'));
     case Dottle:
       return Dottle.fromBinary(Buffer.from(raw, 'base64'));
+    case DotQueued:
+      return DotQueued.fromBinary(Buffer.from(raw, 'base64'));
   }
   throw new Error("fromStore: no obj passed")
 }
@@ -46,8 +51,9 @@ export function fromStore(raw: string, type: typeof Dot | typeof Dottle) : Dot |
 export interface Store{
   connect() : void;
   getDottleIds() : Promise<Dottle['id'][]>;
-  getDottle(id: Dottle['id']) : Promise<Dottle|void>;
-  setDottle(dottle: Dottle) : Promise<any>;
+  getDottle(id: Dottle['id']) : Promise<Dottle|null>;
+  addDottle(dottle: Dottle) : Promise<Dottle>;
+  addDot(dot: Dot, dottleId: string, score: number): Promise<Dot>;
   getNextDotForProcess(): Promise<Dot>;
 }
 

@@ -12,6 +12,19 @@ import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
 import { Timestamp } from "./google/protobuf/timestamp";
 /**
+ * @generated from protobuf message dottle.DotQueued
+ */
+export interface DotQueued {
+    /**
+     * @generated from protobuf field: string dottle_id = 1;
+     */
+    dottleId: string;
+    /**
+     * @generated from protobuf field: dottle.Dot dot = 2;
+     */
+    dot?: Dot;
+}
+/**
  * @generated from protobuf message dottle.Dot
  */
 export interface Dot {
@@ -134,6 +147,60 @@ export enum JobInfo_Status {
      */
     ERROR = 5
 }
+// @generated message type with reflection information, may provide speed optimized methods
+class DotQueued$Type extends MessageType<DotQueued> {
+    constructor() {
+        super("dottle.DotQueued", [
+            { no: 1, name: "dottle_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "dot", kind: "message", T: () => Dot }
+        ]);
+    }
+    create(value?: PartialMessage<DotQueued>): DotQueued {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.dottleId = "";
+        if (value !== undefined)
+            reflectionMergePartial<DotQueued>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: DotQueued): DotQueued {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string dottle_id */ 1:
+                    message.dottleId = reader.string();
+                    break;
+                case /* dottle.Dot dot */ 2:
+                    message.dot = Dot.internalBinaryRead(reader, reader.uint32(), options, message.dot);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: DotQueued, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string dottle_id = 1; */
+        if (message.dottleId !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.dottleId);
+        /* dottle.Dot dot = 2; */
+        if (message.dot)
+            Dot.internalBinaryWrite(message.dot, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message dottle.DotQueued
+ */
+export const DotQueued = new DotQueued$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class Dot$Type extends MessageType<Dot> {
     constructor() {

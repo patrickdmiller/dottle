@@ -2,9 +2,8 @@ import { Store, KEYS, makeId, makeDotId, toStore, fromStore } from '../';
 import { createClient } from 'redis'
 import { Redis as IORedis } from 'ioredis'
 import Redlock from 'redlock'
-import { Dot } from "../../proto/gen/dot";
+import { Dot, DotQueued } from "../../proto/gen/dot";
 import { Dottle } from "../../proto/gen/dottle";
-
 
 
 // TODO : create store interface.
@@ -30,14 +29,19 @@ export class Redis implements Store {
     return Promise.reject("getDottleIdsredis client is not connected");
   }
 
-  async getDottle(id: Dottle['id']): Promise<Dottle | void> {
+  async getDottle(id: Dottle['id']): Promise<Dottle | null> {
     let raw = await this.client.get(makeId(KEYS.DOTTLE, id));
     if (raw) {
       return fromStore(raw, Dottle) as Dottle;
     }
+    return null
   }
 
-  async setDottle(dottle: Dottle): Promise<any> {
+  async addDot(dot: Dot, dottleId: string, score: number): Promise<Dot>{
+    await this.client.zadd(makeId(KEYS.DOTS_TO_PROCESS, null), score, toStore(DotQueued.create({dottleId:dottleId, dot:dot})))
+    return dot;
+  }
+  async addDottle(dottle: Dottle): Promise<any> {
     if (await this.client.get(makeId(KEYS.DOTTLE, dottle.id))) {
       //todo change to warn
       return Promise.reject("dottle already exists. Either delete it or create new")
@@ -48,7 +52,7 @@ export class Redis implements Store {
     let promises: Promise<any>[] = [];
     let score = dottle.priority;
     dottle.dots.forEach(dot => {
-      promises.push(this.client.zadd(makeId(KEYS.DOTS_TO_PROCESS, null), score, toStore(dot)));
+      promises.push(this.addDot(dot, dottle.id, dottle.priority));
     });
 
     await Promise.all(promises);
