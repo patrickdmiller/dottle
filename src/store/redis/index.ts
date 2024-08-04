@@ -1,4 +1,4 @@
-import { Store, KEYS, makeId, makeDotId, toStore, fromStore } from '../';
+import { Store, KEYS, makeId, makeDotId, toStore, fromStore, fromStoreDotQueued } from '../';
 import { createClient } from 'redis'
 import { Redis as IORedis } from 'ioredis'
 import Redlock from 'redlock'
@@ -16,10 +16,6 @@ export class Redis implements Store {
   constructor() {
     this.client = new IORedis();
     this.redlock = new Redlock([this.client]);
-  }
-
-  connect() {
-
   }
 
   getDottleIds(): Promise<Dottle['id'][]> {
@@ -41,6 +37,7 @@ export class Redis implements Store {
     await this.client.zadd(makeId(KEYS.DOTS_TO_PROCESS, null), score, toStore(DotQueued.create({dottleId:dottleId, dot:dot})))
     return dot;
   }
+
   async addDottle(dottle: Dottle): Promise<any> {
     if (await this.client.get(makeId(KEYS.DOTTLE, dottle.id))) {
       //todo change to warn
@@ -58,11 +55,22 @@ export class Redis implements Store {
     await Promise.all(promises);
   }
 
-  async getNextDotForProcess(): Promise<Dot> {
+  async getNextDotForProcess(): Promise<DotQueued | null> {
     if (this.client) {
-      await this.client
+
+      let nextDot = await this.client.zpopmin(makeId(KEYS.DOTS_TO_PROCESS));
+
+      if(nextDot == null || nextDot.length == 0){ 
+        // there is no dot.
+        return null
+      }
+      
+      // push it on to processing queue
+      this.client.sadd(makeId(KEYS.DOTS_IN_PROCESS), nextDot[0]);
+      // return it
+      return fromStoreDotQueued(nextDot[0]);
     }
-    return Promise.reject("rgetNextDot: edis client is not connected");
+    return Promise.reject("getNextDot: edis client is not connected");
   }
 }
 

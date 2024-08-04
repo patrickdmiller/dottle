@@ -10,7 +10,7 @@ enum KEYS {
   "DOTS_IN_PROCESS" = "$DOT.DOTS_IN_PROCESS"
 }
 
-export function makeId (key : KEYS, value : any | null) : string {
+export function makeId (key : KEYS, value : any | null = null) : string {
   if(value === null){
     return key;
   }
@@ -36,24 +36,47 @@ export function toStore(obj: Dot | Dottle | DotQueued) : string{
   throw new Error("toStore: no obj passed")
 }
 
+export function toStoreDot(obj: Dot) : string{
+  return toStore(obj);
+}
+
+export function toStoreDottle(obj:Dottle) : string {
+  return toStore(obj);
+}
+
+export function toStoreDotQueued(obj:DotQueued) : string{
+  return toStore(obj);
+}
+
 export function fromStore(raw: string, type: typeof Dot | typeof Dottle | typeof DotQueued) : Dot | Dottle | DotQueued{
   switch(type){
     case Dot:
-      return Dot.fromBinary(Buffer.from(raw, 'base64'));
+      return Dot.fromBinary(Buffer.from(raw, 'base64')) as Dot;
     case Dottle:
-      return Dottle.fromBinary(Buffer.from(raw, 'base64'));
+      return Dottle.fromBinary(Buffer.from(raw, 'base64')) as Dottle;
     case DotQueued:
-      return DotQueued.fromBinary(Buffer.from(raw, 'base64'));
+      return DotQueued.fromBinary(Buffer.from(raw, 'base64')) as DotQueued;
   }
   throw new Error("fromStore: no obj passed")
 }
 
+export function fromStoreDot(raw: string) : Dot {
+  return fromStore(raw, Dot) as Dot;
+}
+
+export function fromStoreDottle(raw: string) : Dottle {
+  return fromStore(raw, Dottle) as Dottle;
+}
+
+export function fromStoreDotQueued(raw: string) : DotQueued {
+  return fromStore(raw, DotQueued) as DotQueued;
+}
+
 export interface Store{
-  connect() : void;
   getDottleIds() : Promise<Dottle['id'][]>;
   getDottle(id: Dottle['id']) : Promise<Dottle|null>;
   addDottle(dottle: Dottle) : Promise<Dottle>;
   addDot(dot: Dot, dottleId: string, score: number): Promise<Dot>;
-  getNextDotForProcess(): Promise<Dot>;
+  getNextDotForProcess(): Promise<DotQueued | null>;
 }
 

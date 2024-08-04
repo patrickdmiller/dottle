@@ -11,7 +11,7 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
-import { Dot } from "./dot";
+import { DotQueued } from "./dot";
 import { Client } from "./client";
 import { Dottle } from "./dottle";
 /**
@@ -64,9 +64,9 @@ export interface GetDotForProcessRequest {
  */
 export interface GetDotForProcessResponse {
     /**
-     * @generated from protobuf field: dottle.Dot dot = 1;
+     * @generated from protobuf field: dottle.DotQueued dotQueued = 1;
      */
-    dot?: Dot;
+    dotQueued?: DotQueued;
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class TestRequest$Type extends MessageType<TestRequest> {
@@ -291,7 +291,7 @@ export const GetDotForProcessRequest = new GetDotForProcessRequest$Type();
 class GetDotForProcessResponse$Type extends MessageType<GetDotForProcessResponse> {
     constructor() {
         super("dottle.GetDotForProcessResponse", [
-            { no: 1, name: "dot", kind: "message", T: () => Dot }
+            { no: 1, name: "dotQueued", kind: "message", T: () => DotQueued }
         ]);
     }
     create(value?: PartialMessage<GetDotForProcessResponse>): GetDotForProcessResponse {
@@ -305,8 +305,8 @@ class GetDotForProcessResponse$Type extends MessageType<GetDotForProcessResponse
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* dottle.Dot dot */ 1:
-                    message.dot = Dot.internalBinaryRead(reader, reader.uint32(), options, message.dot);
+                case /* dottle.DotQueued dotQueued */ 1:
+                    message.dotQueued = DotQueued.internalBinaryRead(reader, reader.uint32(), options, message.dotQueued);
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -320,9 +320,9 @@ class GetDotForProcessResponse$Type extends MessageType<GetDotForProcessResponse
         return message;
     }
     internalBinaryWrite(message: GetDotForProcessResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* dottle.Dot dot = 1; */
-        if (message.dot)
-            Dot.internalBinaryWrite(message.dot, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* dottle.DotQueued dotQueued = 1; */
+        if (message.dotQueued)
+            DotQueued.internalBinaryWrite(message.dotQueued, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -339,5 +339,5 @@ export const GetDotForProcessResponse = new GetDotForProcessResponse$Type();
 export const CoordinatorService = new ServiceType("dottle.CoordinatorService", [
     { name: "Test", options: {}, I: TestRequest, O: TestResponse },
     { name: "CreateDottle", options: {}, I: CreateDottleRequest, O: CreateDottleResponse },
-    { name: "GetDotForProcess", serverStreaming: true, options: {}, I: GetDotForProcessRequest, O: GetDotForProcessResponse }
+    { name: "GetDotForProcess", options: {}, I: GetDotForProcessRequest, O: GetDotForProcessResponse }
 ]);

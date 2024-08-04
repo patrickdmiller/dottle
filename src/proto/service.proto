@@ -8,7 +8,8 @@ service CoordinatorService{
   rpc Test(TestRequest) returns (TestResponse){}
   rpc CreateDottle(CreateDottleRequest) returns (CreateDottleResponse){}
   // if available, return, else, wait until available
-  rpc GetDotForProcess(GetDotForProcessRequest) returns (stream GetDotForProcessResponse){}
+  // rpc GetDotForProcess(GetDotForProcessRequest) returns (stream GetDotForProcessResponse){}
+  rpc GetDotForProcess(GetDotForProcessRequest) returns (GetDotForProcessResponse){}
 }
 
 message TestRequest{
@@ -33,6 +34,7 @@ message GetDotForProcessRequest{
 }
 
 message GetDotForProcessResponse{
-  Dot dot = 1;
+  DotQueued dotQueued = 1;
+
 }
 

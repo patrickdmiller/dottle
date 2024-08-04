@@ -24,10 +24,11 @@ export interface ICoordinatorService extends grpc.UntypedServiceImplementation {
     createDottle: grpc.handleUnaryCall<CreateDottleRequest, CreateDottleResponse>;
     /**
      * if available, return, else, wait until available
+     * rpc GetDotForProcess(GetDotForProcessRequest) returns (stream GetDotForProcessResponse){}
      *
-     * @generated from protobuf rpc: GetDotForProcess(dottle.GetDotForProcessRequest) returns (stream dottle.GetDotForProcessResponse);
+     * @generated from protobuf rpc: GetDotForProcess(dottle.GetDotForProcessRequest) returns (dottle.GetDotForProcessResponse);
      */
-    getDotForProcess: grpc.handleServerStreamingCall<GetDotForProcessRequest, GetDotForProcessResponse>;
+    getDotForProcess: grpc.handleUnaryCall<GetDotForProcessRequest, GetDotForProcessResponse>;
 }
 /**
  * @grpc/grpc-js definition for the protobuf service dottle.CoordinatorService.
@@ -65,7 +66,7 @@ export const coordinatorServiceDefinition: grpc.ServiceDefinition<ICoordinatorSe
         path: "/dottle.CoordinatorService/GetDotForProcess",
         originalName: "GetDotForProcess",
         requestStream: false,
-        responseStream: true,
+        responseStream: false,
         responseDeserialize: bytes => GetDotForProcessResponse.fromBinary(bytes),
         requestDeserialize: bytes => GetDotForProcessRequest.fromBinary(bytes),
         responseSerialize: value => Buffer.from(GetDotForProcessResponse.toBinary(value)),

@@ -3,6 +3,7 @@ import { RpcError, RpcInputStream, ServerCallContext} from "@protobuf-ts/runtime
 import { coordinatorServiceDefinition, ICoordinatorService } from "../proto/gen/service.grpc-server";
 import { TestRequest, TestResponse, CreateDottleRequest, CreateDottleResponse, GetDotForProcessRequest, GetDotForProcessResponse } from "../proto/gen/service";
 import { Store } from '../store';
+import { DotQueued } from '../proto/gen/dot';
 
 let store: Store;
 
@@ -47,8 +48,20 @@ export class CoordinatorService implements ICoordinatorService {
         
     }
   }
-  async getDotForProcess(call: grpc.ServerWritableStream<GetDotForProcessRequest, GetDotForProcessResponse>) : Promise<void> {
+  
+  // async getDotForProcess(call: grpc.ServerWritableStream<GetDotForProcessRequest, GetDotForProcessResponse>) : Promise<void> {
+  //   call.on('error', this.handleError);
+
+  // }
+  async getDotForProcess(call: grpc.ServerUnaryCall<GetDotForProcessRequest, GetDotForProcessResponse>, callback: grpc.sendUnaryData<GetDotForProcessResponse>):Promise<void>{
     call.on('error', this.handleError);
-    
+    let dotQueued = await store.getNextDotForProcess();
+    if(dotQueued == null){
+      callback(null, GetDotForProcessResponse.create());
+    }else{
+      callback(null, GetDotForProcessResponse.create({dotQueued:dotQueued}));
+    }
   }
+
+
 }
