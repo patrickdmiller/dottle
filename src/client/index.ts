@@ -3,7 +3,7 @@ import { CoordinatorServiceClient, ICoordinatorServiceClient } from "../proto/ge
 import { Dottle } from "../proto/gen/dottle";
 import { Dot, Container, Parameter } from "../proto/gen/dot";
 import { setOneofValue } from "@protobuf-ts/runtime";
-import { CreateDottleRequest, GetDotForProcessRequest } from "../proto/gen/service";
+import { CreateDottleRequest, GetDotToProcessRequest } from "../proto/gen/service";
 const client = new CoordinatorServiceClient("localhost:3000", ChannelCredentials.createInsecure(), {}, {});
 
 
@@ -119,7 +119,7 @@ async function exampleClientTasks() {
 
 
   // now we get the next dot!
-  console.log("here is dot for queue", await client.getDotForProcess(GetDotForProcessRequest.create(), (err, value)=>{
+  console.log("here is dot for queue", await client.getDotToProcess(GetDotToProcessRequest.create(), (err, value)=>{
     console.log(err, value)
   }))
 }

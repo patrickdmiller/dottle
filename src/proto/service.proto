@@ -9,7 +9,7 @@ service CoordinatorService{
   rpc CreateDottle(CreateDottleRequest) returns (CreateDottleResponse){}
   // if available, return, else, wait until available
   // rpc GetDotForProcess(GetDotForProcessRequest) returns (stream GetDotForProcessResponse){}
-  rpc GetDotForProcess(GetDotForProcessRequest) returns (GetDotForProcessResponse){}
+  rpc GetDotToProcess(GetDotToProcessRequest) returns (GetDotToProcessResponse){}
 }
 
 message TestRequest{
@@ -29,12 +29,12 @@ message CreateDottleResponse{
 
 }
 
-message GetDotForProcessRequest{
+message GetDotToProcessRequest{
   Client client = 1;
 }
 
-message GetDotForProcessResponse{
-  DotQueued dotQueued = 1;
+message GetDotToProcessResponse{
+  DotToProcess dotToProcess = 1;
 
 }
 

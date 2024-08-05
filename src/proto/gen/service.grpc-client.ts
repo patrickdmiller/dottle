@@ -4,8 +4,8 @@
 import { CoordinatorService } from "./service";
 import type { BinaryWriteOptions } from "@protobuf-ts/runtime";
 import type { BinaryReadOptions } from "@protobuf-ts/runtime";
-import type { GetDotForProcessResponse } from "./service";
-import type { GetDotForProcessRequest } from "./service";
+import type { GetDotToProcessResponse } from "./service";
+import type { GetDotToProcessRequest } from "./service";
 import type { CreateDottleResponse } from "./service";
 import type { CreateDottleRequest } from "./service";
 import type { TestResponse } from "./service";
@@ -35,12 +35,12 @@ export interface ICoordinatorServiceClient {
      * if available, return, else, wait until available
      * rpc GetDotForProcess(GetDotForProcessRequest) returns (stream GetDotForProcessResponse){}
      *
-     * @generated from protobuf rpc: GetDotForProcess(dottle.GetDotForProcessRequest) returns (dottle.GetDotForProcessResponse);
+     * @generated from protobuf rpc: GetDotToProcess(dottle.GetDotToProcessRequest) returns (dottle.GetDotToProcessResponse);
      */
-    getDotForProcess(input: GetDotForProcessRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: (err: grpc.ServiceError | null, value?: GetDotForProcessResponse) => void): grpc.ClientUnaryCall;
-    getDotForProcess(input: GetDotForProcessRequest, metadata: grpc.Metadata, callback: (err: grpc.ServiceError | null, value?: GetDotForProcessResponse) => void): grpc.ClientUnaryCall;
-    getDotForProcess(input: GetDotForProcessRequest, options: grpc.CallOptions, callback: (err: grpc.ServiceError | null, value?: GetDotForProcessResponse) => void): grpc.ClientUnaryCall;
-    getDotForProcess(input: GetDotForProcessRequest, callback: (err: grpc.ServiceError | null, value?: GetDotForProcessResponse) => void): grpc.ClientUnaryCall;
+    getDotToProcess(input: GetDotToProcessRequest, metadata: grpc.Metadata, options: grpc.CallOptions, callback: (err: grpc.ServiceError | null, value?: GetDotToProcessResponse) => void): grpc.ClientUnaryCall;
+    getDotToProcess(input: GetDotToProcessRequest, metadata: grpc.Metadata, callback: (err: grpc.ServiceError | null, value?: GetDotToProcessResponse) => void): grpc.ClientUnaryCall;
+    getDotToProcess(input: GetDotToProcessRequest, options: grpc.CallOptions, callback: (err: grpc.ServiceError | null, value?: GetDotToProcessResponse) => void): grpc.ClientUnaryCall;
+    getDotToProcess(input: GetDotToProcessRequest, callback: (err: grpc.ServiceError | null, value?: GetDotToProcessResponse) => void): grpc.ClientUnaryCall;
 }
 /**
  * @generated from protobuf service dottle.CoordinatorService
@@ -71,10 +71,10 @@ export class CoordinatorServiceClient extends grpc.Client implements ICoordinato
      * if available, return, else, wait until available
      * rpc GetDotForProcess(GetDotForProcessRequest) returns (stream GetDotForProcessResponse){}
      *
-     * @generated from protobuf rpc: GetDotForProcess(dottle.GetDotForProcessRequest) returns (dottle.GetDotForProcessResponse);
+     * @generated from protobuf rpc: GetDotToProcess(dottle.GetDotToProcessRequest) returns (dottle.GetDotToProcessResponse);
      */
-    getDotForProcess(input: GetDotForProcessRequest, metadata: grpc.Metadata | grpc.CallOptions | ((err: grpc.ServiceError | null, value?: GetDotForProcessResponse) => void), options?: grpc.CallOptions | ((err: grpc.ServiceError | null, value?: GetDotForProcessResponse) => void), callback?: ((err: grpc.ServiceError | null, value?: GetDotForProcessResponse) => void)): grpc.ClientUnaryCall {
+    getDotToProcess(input: GetDotToProcessRequest, metadata: grpc.Metadata | grpc.CallOptions | ((err: grpc.ServiceError | null, value?: GetDotToProcessResponse) => void), options?: grpc.CallOptions | ((err: grpc.ServiceError | null, value?: GetDotToProcessResponse) => void), callback?: ((err: grpc.ServiceError | null, value?: GetDotToProcessResponse) => void)): grpc.ClientUnaryCall {
         const method = CoordinatorService.methods[2];
-        return this.makeUnaryRequest<GetDotForProcessRequest, GetDotForProcessResponse>(`/${CoordinatorService.typeName}/${method.name}`, (value: GetDotForProcessRequest): Buffer => Buffer.from(method.I.toBinary(value, this._binaryOptions)), (value: Buffer): GetDotForProcessResponse => method.O.fromBinary(value, this._binaryOptions), input, (metadata as any), (options as any), (callback as any));
+        return this.makeUnaryRequest<GetDotToProcessRequest, GetDotToProcessResponse>(`/${CoordinatorService.typeName}/${method.name}`, (value: GetDotToProcessRequest): Buffer => Buffer.from(method.I.toBinary(value, this._binaryOptions)), (value: Buffer): GetDotToProcessResponse => method.O.fromBinary(value, this._binaryOptions), input, (metadata as any), (options as any), (callback as any));
     }
 }

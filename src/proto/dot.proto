@@ -2,10 +2,16 @@ syntax = "proto3";
 package dottle;
 import "google/protobuf/timestamp.proto";
 
-message DotQueued{
+message DotToProcess{
   string dottle_id = 1;
   Dot dot = 2;
 }
+
+message FullDotId{
+  string dottle_id = 1;
+  string dot_id = 2;
+}
+
 message Dot{
   string id = 1;  
   google.protobuf.Timestamp created = 2;

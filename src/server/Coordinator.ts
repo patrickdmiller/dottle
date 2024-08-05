@@ -1,9 +1,10 @@
 import * as grpc from '@grpc/grpc-js';
 import { RpcError, RpcInputStream, ServerCallContext} from "@protobuf-ts/runtime-rpc";
 import { coordinatorServiceDefinition, ICoordinatorService } from "../proto/gen/service.grpc-server";
-import { TestRequest, TestResponse, CreateDottleRequest, CreateDottleResponse, GetDotForProcessRequest, GetDotForProcessResponse } from "../proto/gen/service";
+import { TestRequest, TestResponse, CreateDottleRequest, CreateDottleResponse, GetDotToProcessRequest, GetDotToProcessResponse } from "../proto/gen/service";
 import { Store } from '../store';
-import { DotQueued } from '../proto/gen/dot';
+import { DotToProcess } from '../proto/gen/dot';
+import { dot } from 'node:test/reporters';
 
 let store: Store;
 
@@ -53,13 +54,13 @@ export class CoordinatorService implements ICoordinatorService {
   //   call.on('error', this.handleError);
 
   // }
-  async getDotForProcess(call: grpc.ServerUnaryCall<GetDotForProcessRequest, GetDotForProcessResponse>, callback: grpc.sendUnaryData<GetDotForProcessResponse>):Promise<void>{
+  async getDotToProcess(call: grpc.ServerUnaryCall<GetDotToProcessRequest, GetDotToProcessResponse>, callback: grpc.sendUnaryData<GetDotToProcessResponse>):Promise<void>{
     call.on('error', this.handleError);
-    let dotQueued = await store.getNextDotForProcess();
-    if(dotQueued == null){
-      callback(null, GetDotForProcessResponse.create());
+    let dotToProcess = await store.getNextDotToProcess();
+    if(dotToProcess == null){
+      callback(null, GetDotToProcessResponse.create());
     }else{
-      callback(null, GetDotForProcessResponse.create({dotQueued:dotQueued}));
+      callback(null, GetDotToProcessResponse.create({dotToProcess:dotToProcess}));
     }
   }
 
