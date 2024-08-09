@@ -90,5 +90,5 @@ export interface Store {
   addDotToDotsProcessingQueue(fullDotId: FullDotId): Promise<void>;
   getNextDotToProcess(): Promise<DotToProcess | null>;
   setDotFinishedInDottle(fullDotId: FullDotId): Promise<Dottle | null>;
-  ackDotProcessed(fullDotId: FullDotId): Promise<Dottle | null>;
+  finishDotProcess(fullDotId: FullDotId): Promise<Dottle | null>;
 }

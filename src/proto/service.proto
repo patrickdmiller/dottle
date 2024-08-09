@@ -10,6 +10,7 @@ service CoordinatorService{
   // if available, return, else, wait until available
   // rpc GetDotForProcess(GetDotForProcessRequest) returns (stream GetDotForProcessResponse){}
   rpc GetDotToProcess(GetDotToProcessRequest) returns (GetDotToProcessResponse){}
+  rpc FinishDotProcess(FinishDotProcessRequest) returns (FinishDotProcessResponse){} 
 }
 
 message TestRequest{
@@ -35,6 +36,16 @@ message GetDotToProcessRequest{
 
 message GetDotToProcessResponse{
   DotToProcess dotToProcess = 1;
+}
+
+message FinishDotProcessRequest{
+  Client client = 1;
+  string dottle_id = 2;
+  string dot_id = 3;
+
+}
+
+message FinishDotProcessResponse{
 
 }
 

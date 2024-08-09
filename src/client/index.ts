@@ -112,10 +112,13 @@ async function exampleClientTasks() {
   );
   try{
     await client.createDottle(CreateDottleRequest.create({ dottle: dottle2 }), (err, value) => {
+      console.log("results of create")
       console.log(err);
       console.log(value);
     });
-  }catch(e){}
+  }catch(e){
+    console.log(e)
+  }
 
 
   // now we get the next dot!

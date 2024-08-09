@@ -33,8 +33,9 @@ export class Redis implements Store {
     return null
   }
 
-  async setDottle(dottle : Dottle): Promise<void>{
-    if (await this.client.get(makeId(KEYS.DOTTLE, dottle.id))) {
+  async setDottle(dottle : Dottle, force : boolean = false): Promise<void>{
+    if (!force && await this.client.get(makeId(KEYS.DOTTLE, dottle.id))) {
+      console.log("need to reject this request")
       //todo change to warn
       return Promise.reject("dottle already exists. Either delete it or create new")
     }
@@ -68,14 +69,8 @@ export class Redis implements Store {
 
   async addDottle(dottle: Dottle): Promise<any> {
     
-    console.log("setting: ", makeId(KEYS.DOTTLE, dottle.id))
-    try{
-      await this.setDottle(dottle);
-    }catch(e){
-      // Promise.reject(e)
-      return;
-    }
-    
+    await this.setDottle(dottle);
+
     // for each dot, add it to dot queue
     let promises: Promise<any>[] = [];
     let score = dottle.priority;
@@ -114,7 +109,8 @@ export class Redis implements Store {
   }
 
   async setDotFinishedInDottle(fullDotId : FullDotId) : Promise<Dottle | null> {
-    // we need to block to be thread safe
+    // we should block to be thread safe
+    console.log("in setDotFinishedInDottle")
     let dottle = await this.getDottle(fullDotId.dottleId)
     if(dottle == null)
       return null;
@@ -128,11 +124,14 @@ export class Redis implements Store {
       }
 
     }
-    return this.setDotFinishedInDottle(fullDotId);
+    //update the dottle
+    await this.setDottle(dottle, true)
+    return this.getDottle(dottle.id)
+    // return this.setDotFinishedInDottle(fullDotId);
 
   }
 
-  async ackDotProcessed(fullDotId : FullDotId): Promise<Dottle | null> {
+  async finishDotProcess(fullDotId : FullDotId): Promise<Dottle | null> {
     // remove it from processing queue. If it's not in there, we ignore it. Someone else already finished processing it
     // TODO(@patrickdmiller) Should we handle this differently?
     this.client.hdel(KEYS.DOTS_IN_PROCESS, makeFullDotIdString(fullDotId))
@@ -140,7 +139,7 @@ export class Redis implements Store {
     // make sure its not in the toProcess queue
     this.client.zrem(KEYS.DOTS_TO_PROCESS, makeFullDotIdString(fullDotId))
 
-    return this.ackDotProcessed(fullDotId);
+    // return this.ackDotProcessed(fullDotId);
   }
 }
 

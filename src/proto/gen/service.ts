@@ -68,6 +68,28 @@ export interface GetDotToProcessResponse {
      */
     dotToProcess?: DotToProcess;
 }
+/**
+ * @generated from protobuf message dottle.FinishDotProcessRequest
+ */
+export interface FinishDotProcessRequest {
+    /**
+     * @generated from protobuf field: dottle.Client client = 1;
+     */
+    client?: Client;
+    /**
+     * @generated from protobuf field: string dottle_id = 2;
+     */
+    dottleId: string;
+    /**
+     * @generated from protobuf field: string dot_id = 3;
+     */
+    dotId: string;
+}
+/**
+ * @generated from protobuf message dottle.FinishDotProcessResponse
+ */
+export interface FinishDotProcessResponse {
+}
 // @generated message type with reflection information, may provide speed optimized methods
 class TestRequest$Type extends MessageType<TestRequest> {
     constructor() {
@@ -333,11 +355,99 @@ class GetDotToProcessResponse$Type extends MessageType<GetDotToProcessResponse> 
  * @generated MessageType for protobuf message dottle.GetDotToProcessResponse
  */
 export const GetDotToProcessResponse = new GetDotToProcessResponse$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class FinishDotProcessRequest$Type extends MessageType<FinishDotProcessRequest> {
+    constructor() {
+        super("dottle.FinishDotProcessRequest", [
+            { no: 1, name: "client", kind: "message", T: () => Client },
+            { no: 2, name: "dottle_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 3, name: "dot_id", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<FinishDotProcessRequest>): FinishDotProcessRequest {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.dottleId = "";
+        message.dotId = "";
+        if (value !== undefined)
+            reflectionMergePartial<FinishDotProcessRequest>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: FinishDotProcessRequest): FinishDotProcessRequest {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* dottle.Client client */ 1:
+                    message.client = Client.internalBinaryRead(reader, reader.uint32(), options, message.client);
+                    break;
+                case /* string dottle_id */ 2:
+                    message.dottleId = reader.string();
+                    break;
+                case /* string dot_id */ 3:
+                    message.dotId = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: FinishDotProcessRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* dottle.Client client = 1; */
+        if (message.client)
+            Client.internalBinaryWrite(message.client, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* string dottle_id = 2; */
+        if (message.dottleId !== "")
+            writer.tag(2, WireType.LengthDelimited).string(message.dottleId);
+        /* string dot_id = 3; */
+        if (message.dotId !== "")
+            writer.tag(3, WireType.LengthDelimited).string(message.dotId);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message dottle.FinishDotProcessRequest
+ */
+export const FinishDotProcessRequest = new FinishDotProcessRequest$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class FinishDotProcessResponse$Type extends MessageType<FinishDotProcessResponse> {
+    constructor() {
+        super("dottle.FinishDotProcessResponse", []);
+    }
+    create(value?: PartialMessage<FinishDotProcessResponse>): FinishDotProcessResponse {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        if (value !== undefined)
+            reflectionMergePartial<FinishDotProcessResponse>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: FinishDotProcessResponse): FinishDotProcessResponse {
+        return target ?? this.create();
+    }
+    internalBinaryWrite(message: FinishDotProcessResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message dottle.FinishDotProcessResponse
+ */
+export const FinishDotProcessResponse = new FinishDotProcessResponse$Type();
 /**
  * @generated ServiceType for protobuf service dottle.CoordinatorService
  */
 export const CoordinatorService = new ServiceType("dottle.CoordinatorService", [
     { name: "Test", options: {}, I: TestRequest, O: TestResponse },
     { name: "CreateDottle", options: {}, I: CreateDottleRequest, O: CreateDottleResponse },
-    { name: "GetDotToProcess", options: {}, I: GetDotToProcessRequest, O: GetDotToProcessResponse }
+    { name: "GetDotToProcess", options: {}, I: GetDotToProcessRequest, O: GetDotToProcessResponse },
+    { name: "FinishDotProcess", options: {}, I: FinishDotProcessRequest, O: FinishDotProcessResponse }
 ]);
